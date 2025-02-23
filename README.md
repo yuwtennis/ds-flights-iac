@@ -1,4 +1,3 @@
-# TODO Write about budget consideration
 
 ## Pre-requisite
 
@@ -21,3 +20,7 @@ terraform init
 terraform plan
 terraform apply
 ```
+
+## Managing cost
+
+TODO MentionWrite about cost management
