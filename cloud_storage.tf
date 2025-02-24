@@ -10,9 +10,9 @@ resource "google_storage_bucket" "flights" {
 }
 
 resource "google_storage_bucket" "staging" {
-  name = "${var.project}-cf-staging"
-  location = local.bucket_location
-  force_destroy = true
+  name                        = "${var.project}-cf-staging"
+  location                    = local.bucket_location
+  force_destroy               = true
   uniform_bucket_level_access = true
 
   labels = {
@@ -22,6 +22,6 @@ resource "google_storage_bucket" "staging" {
 
 // storage admin will be the authoritative for this bucket
 resource "google_storage_bucket_iam_policy" "staging_bucket_authoritative_policy" {
-  bucket = google_storage_bucket.staging.name
+  bucket      = google_storage_bucket.staging.name
   policy_data = data.google_iam_policy.storage_admin.policy_data
 }
