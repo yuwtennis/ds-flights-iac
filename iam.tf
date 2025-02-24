@@ -13,3 +13,12 @@ data "google_iam_policy" "storage_admin" {
     ]
   }
 }
+
+resource "google_project_iam_binding" "bind_bq_job_user" {
+  project = var.project
+  role = "roles/bigquery.jobUser"
+
+  members = [
+    "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
+  ]
+}
