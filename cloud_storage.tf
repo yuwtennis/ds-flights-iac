@@ -1,7 +1,7 @@
 resource "google_storage_bucket" "flights" {
   // Globally unique name
-  name          = "${var.project}-ds"
-  location      = local.bucket_location
+  name          = "${var.project_id}-ds"
+  location      = local.region
   force_destroy = true
 
   labels = {
@@ -10,8 +10,8 @@ resource "google_storage_bucket" "flights" {
 }
 
 resource "google_storage_bucket" "staging" {
-  name                        = "${var.project}-cf-staging"
-  location                    = local.bucket_location
+  name                        = "${var.project_id}-cf-staging"
+  location                    = local.region
   force_destroy               = true
   uniform_bucket_level_access = true
 

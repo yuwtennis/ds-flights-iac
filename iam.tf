@@ -15,7 +15,7 @@ data "google_iam_policy" "storage_admin" {
 }
 
 resource "google_project_iam_binding" "bind_bq_job_user" {
-  project = var.project
+  project = var.project_id
   role    = "roles/bigquery.jobUser"
 
   members = [
