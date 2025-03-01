@@ -14,14 +14,14 @@ resource "google_cloud_scheduler_job" "monthly_update" {
 
   http_target {
     http_method = "POST"
-    uri         = data.google_cloud_run_service.ingest_flights_monthly.status[0].url
+    uri         = local.ingest_flights_http_endpoint
     body        = base64encode(jsonencode(local.ingest_flights_monthly_req_body))
     headers = {
       "Content-Type" = "application/json"
     }
     oidc_token {
       service_account_email = google_service_account.svc_monthly_ingest.email
-      audience              = data.google_cloud_run_service.ingest_flights_monthly.status[0].url
+      audience              = local.ingest_flights_http_endpoint
     }
   }
 }
