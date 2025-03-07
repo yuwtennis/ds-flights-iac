@@ -4,6 +4,12 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 6.0"
     }
+
+    template = {
+      source  = "hashicorp/template"
+      version = "~> 2.0"
+
+    }
   }
   required_version = "~> 1.11.0"
 }
@@ -11,3 +17,5 @@ terraform {
 provider "google" {
   region = local.region
 }
+
+provider "template" {}
