@@ -43,6 +43,12 @@ resource "google_project_iam_member" "bind_cloud_sql_client" {
   role    = "roles/cloudsql.client"
 }
 
+resource "google_project_iam_member" "bind_cloud_sql_csv_import" {
+  member  = "serviceAccount:${google_sql_database_instance.flights.service_account_email_address}"
+  project = data.google_project.project.project_id
+  role    = "roles/storage.objectViewer"
+}
+
 //resource "google_iap_tunnel_instance_iam_member" "user_tunneling" {
 //  instance = google_compute_instance.cloud_sql_auth_proxy.name
 //  member   = "user:john-doe@google.com"
