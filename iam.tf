@@ -36,3 +36,15 @@ resource "google_project_iam_member" "bind_log_writer" {
   project = data.google_project.project.project_id
   role    = "roles/logging.logWriter"
 }
+
+resource "google_project_iam_member" "bind_cloud_sql_client" {
+  member  = "serviceAccount:${google_service_account.cloud_sql_auth_proxy.email}"
+  project = data.google_project.project.project_id
+  role    = "roles/cloudsql.client"
+}
+
+//resource "google_iap_tunnel_instance_iam_member" "user_tunneling" {
+//  instance = google_compute_instance.cloud_sql_auth_proxy.name
+//  member   = "user:john-doe@google.com"
+//  role     = "roles/iap.tunnelResourceAccessor"
+//}
