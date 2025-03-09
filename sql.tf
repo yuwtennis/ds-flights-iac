@@ -33,3 +33,8 @@ resource "google_sql_database_instance" "flights" {
 
   deletion_protection = false
 }
+
+resource "google_sql_database" "bts" {
+  name     = "bts"
+  instance = google_sql_database_instance.flights.name
+}
