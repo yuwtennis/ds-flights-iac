@@ -1,10 +1,14 @@
 
+locals {
+  cloud_sql_database_version = "POSTGRES_17"
+}
+
 // https://cloud.google.com/sql/docs/postgres/configure-private-service-connect#create-endpoint-manually
 resource "google_sql_database_instance" "flights" {
   // Deal with name cannot be reused
   // https://cloud.google.com/sql/docs/error-messages#errors-u
   name             = "flights"
-  database_version = "POSTGRES_17"
+  database_version = local.cloud_sql_database_version
   region           = var.region
 
   settings {
@@ -25,6 +29,11 @@ resource "google_sql_database_instance" "flights" {
       }
 
       ipv4_enabled = false
+    }
+
+    database_flags {
+      name  = "cloudsql.iam_authentication"
+      value = "on"
     }
   }
 

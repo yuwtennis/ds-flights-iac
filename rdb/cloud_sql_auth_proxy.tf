@@ -1,9 +1,15 @@
+locals {
+  cloud_sql_auth_proxy_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.1"
+  compute_machine_type = "e2-micro"
+  compute_project_family = "cos-cloud/cos-117-lts"
+}
+
 // Auth proxy for running migration from local
 data "template_file" "cloud_sql_auth_proxy_cloud_init" {
   template = file("${path.module}/cloud_sql_auth_proxy.tpl")
   vars = {
     container_name                 = "cloud-sql-auth-proxy"
-    cloud_sql_auth_proxy_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.1"
+    cloud_sql_auth_proxy_image_tag = local.cloud_sql_auth_proxy_image_tag
     cloud_sql_dns_name             = google_sql_database_instance.flights.dns_name
   }
 }
@@ -15,7 +21,7 @@ resource "terraform_data" "cloud_sql_auth_proxy_cloud_init_state" {
 
 resource "google_compute_instance" "cloud_sql_auth_proxy" {
   name         = "cloud-sql-auth-proxy"
-  machine_type = "e2-micro"
+  machine_type = local.compute_machine_type
   zone         = "${var.region}-a"
   tags = [
     tolist(google_compute_firewall.ingress_postgresql_rule.target_tags)[0],
@@ -26,7 +32,7 @@ resource "google_compute_instance" "cloud_sql_auth_proxy" {
 
   boot_disk {
     initialize_params {
-      image = "cos-cloud/cos-117-lts"
+      image = local.compute_project_family
     }
   }
 

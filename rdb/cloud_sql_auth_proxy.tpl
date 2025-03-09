@@ -13,7 +13,7 @@ write_files:
     Description=Start Cloud SQL Auth Proxy docker container
 
     [Service]
-    ExecStart=/usr/bin/docker run --rm -u 2000 --name=${container_name} -p 127.0.0.1:5432:5432 ${cloud_sql_auth_proxy_image_tag} --address 0.0.0.0 --port 5432 --psc ${cloud_sql_dns_name}
+    ExecStart=/usr/bin/docker run --rm -u 2000 --name=${container_name} -p 127.0.0.1:5432:5432 ${cloud_sql_auth_proxy_image_tag} --address 0.0.0.0 --port 5432 --psc --auto-iam-authn ${cloud_sql_dns_name}
     ExecStop=/usr/bin/docker stop ${container_name}
     ExecStopPost=/usr/bin/docker rm ${container_name}
 

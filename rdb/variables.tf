@@ -22,5 +22,4 @@ variable "subnetwork" {
 
 variable "psc_static_ipv4_addr" {
   type = string
-
 }
