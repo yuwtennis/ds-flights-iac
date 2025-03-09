@@ -15,16 +15,19 @@ data "google_iam_policy" "storage_admin" {
 }
 
 resource "google_project_iam_member" "bind_bq_job_user" {
+  member  = "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
   project = data.google_project.project.project_id
   role    = "roles/bigquery.jobUser"
-
-  member = "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
 }
 
 resource "google_project_iam_member" "bind_job_invoker" {
+  member  = "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
   project = data.google_project.project.project_id
   role    = "roles/run.invoker"
-
-  member = "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
-
 }
+
+//resource "google_iap_tunnel_instance_iam_member" "user_tunneling" {
+//  instance = google_compute_instance.cloud_sql_auth_proxy.name
+//  member   = "user:john-doe@google.com"
+//  role     = "roles/iap.tunnelResourceAccessor"
+//}
