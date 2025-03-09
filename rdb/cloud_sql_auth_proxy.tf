@@ -1,9 +1,9 @@
 // Auth proxy for running migration from local
 data "template_file" "cloud_sql_auth_proxy_cloud_init" {
-  template = file("${path.module}/scripts/cloud_sql_auth_proxy.tpl")
+  template = file("${path.module}/cloud_sql_auth_proxy.tpl")
   vars = {
     container_name                 = "cloud-sql-auth-proxy"
-    cloud_sql_auth_proxy_image_tag = local.cloud_sql_auth_proxy_docker_image_tag
+    cloud_sql_auth_proxy_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.1"
     cloud_sql_dns_name             = google_sql_database_instance.flights.dns_name
   }
 }
@@ -16,7 +16,7 @@ resource "terraform_data" "cloud_sql_auth_proxy_cloud_init_state" {
 resource "google_compute_instance" "cloud_sql_auth_proxy" {
   name         = "cloud-sql-auth-proxy"
   machine_type = "e2-micro"
-  zone         = "${local.region}-a"
+  zone         = "${var.region}-a"
   tags = [
     tolist(google_compute_firewall.ingress_postgresql_rule.target_tags)[0],
     tolist(google_compute_firewall.egress_tcp_any_rule.target_tags)[0],
@@ -31,13 +31,11 @@ resource "google_compute_instance" "cloud_sql_auth_proxy" {
   }
 
   network_interface {
-    network    = google_compute_network.vpc.self_link
-    subnetwork = google_compute_subnetwork.private_subnet.self_link
+    network    = var.network.self_link
+    subnetwork = var.subnetwork.self_link
   }
 
   metadata = {
-    cloud-sql-dns-name             = google_sql_database_instance.flights.dns_name
-    cloud-sql-auth-proxy-image-tag = local.cloud_sql_auth_proxy_docker_image_tag
     google-logging-enabled         = true
     user-data                      = terraform_data.cloud_sql_auth_proxy_cloud_init_state.output
   }
@@ -55,9 +53,4 @@ resource "google_compute_instance" "cloud_sql_auth_proxy" {
     ]
   }
 
-  // Explicit dependency just in case
-  depends_on = [
-    google_compute_router_nat.public_nat,
-    google_compute_forwarding_rule.psc_cloud_sql
-  ]
 }

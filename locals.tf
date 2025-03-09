@@ -11,6 +11,6 @@ locals {
     dest_bq_tbl_fqdn = "${local.bq_data_science_dataset_name}.${local.bq_raw_data_tbl_name}"
   }
 
-  ingest_flights_http_endpoint          = "https://ingest-flights-monthly-${data.google_project.project.number}.asia-northeast1.run.app"
-  cloud_sql_auth_proxy_docker_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.1"
+  ingest_flights_http_endpoint = "https://ingest-flights-monthly-${data.google_project.project.number}.asia-northeast1.run.app"
+  rdb_enabled                  = false
 }
