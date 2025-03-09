@@ -1,7 +1,7 @@
 locals {
   cloud_sql_auth_proxy_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.1"
-  compute_machine_type = "e2-micro"
-  compute_project_family = "cos-cloud/cos-117-lts"
+  compute_machine_type           = "e2-micro"
+  compute_project_family         = "cos-cloud/cos-117-lts"
 }
 
 // Auth proxy for running migration from local
@@ -42,8 +42,8 @@ resource "google_compute_instance" "cloud_sql_auth_proxy" {
   }
 
   metadata = {
-    google-logging-enabled         = true
-    user-data                      = terraform_data.cloud_sql_auth_proxy_cloud_init_state.output
+    google-logging-enabled = true
+    user-data              = terraform_data.cloud_sql_auth_proxy_cloud_init_state.output
   }
 
   service_account {

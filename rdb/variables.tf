@@ -8,14 +8,14 @@ variable "region" {
 
 variable "network" {
   type = object({
-    id = string
+    id        = string
     self_link = string
   })
 }
 
 variable "subnetwork" {
   type = object({
-    id = string
+    id        = string
     self_link = string
   })
 }
