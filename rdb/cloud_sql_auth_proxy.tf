@@ -1,5 +1,5 @@
 locals {
-  cloud_sql_auth_proxy_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.1"
+  cloud_sql_auth_proxy_image_tag = "gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.15.3"
   compute_machine_type           = "e2-micro"
   compute_project_family         = "cos-cloud/cos-117-lts"
 }
