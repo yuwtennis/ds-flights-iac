@@ -23,6 +23,12 @@ terraform apply
 
 ### Post deployment procedures
 
+#### Set environment variable
+
+```shell
+export GOOGLE_CLOUD_PROJECT=$(gcloud config get core/project)
+```
+
 #### Set default password for user `postgres`
 
 ```shell

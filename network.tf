@@ -24,7 +24,7 @@ resource "google_compute_subnetwork" "private_subnet" {
 // Nat for pulling container from public repos
 resource "google_compute_router" "router" {
   name    = "cloud-router"
-  region  = google_compute_subnetwork.private_subnet.region
+  region  = local.region
   network = google_compute_network.vpc.id
 
   bgp {
