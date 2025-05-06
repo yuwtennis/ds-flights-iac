@@ -15,4 +15,8 @@ locals {
 
   // Enable this if you need RDB (Cloud SQL)
   rdb_enabled                  = false
+
+  event_topics = [
+  "departed", "arrived", "wheelsoff"
+  ]
 }
