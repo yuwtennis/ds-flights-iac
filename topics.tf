@@ -10,6 +10,6 @@ resource "google_pubsub_topic" "flight_topics" {
 resource "google_pubsub_subscription" "flight_subscriptions" {
   for_each = google_pubsub_topic.flight_topics
 
-  name  = each.key
+  name  = each.value.name
   topic = each.value.id
 }
