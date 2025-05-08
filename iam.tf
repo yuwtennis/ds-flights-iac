@@ -4,7 +4,7 @@ resource "google_service_account" "svc_monthly_ingest" {
   display_name = "flights monthly ingest"
 }
 resource "google_service_account" "svc_dataflow_flight_job" {
-  account_id = "svc-dataflow-flight-job"
+  account_id   = "svc-dataflow-flight-job"
   display_name = "SA for dataflow job for flight"
 }
 
@@ -43,6 +43,13 @@ resource "google_project_iam_member" "bind_bq_user" {
   member  = "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
   project = data.google_project.project.project_id
   role    = "roles/bigquery.user"
+}
+
+resource "google_project_iam_member" "bind_pubsub_editor" {
+
+  member  = "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
+  project = data.google_project.project.project_id
+  role    = "roles/pubsub.editor"
 }
 
 //resource "google_iap_tunnel_instance_iam_member" "user_tunneling" {
