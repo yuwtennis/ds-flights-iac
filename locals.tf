@@ -14,9 +14,9 @@ locals {
   ingest_flights_http_endpoint = "https://ingest-flights-monthly-${data.google_project.project.number}.asia-northeast1.run.app"
 
   // Enable this if you need RDB (Cloud SQL)
-  rdb_enabled                  = false
+  rdb_enabled = false
 
   event_topics = [
-  "departed", "arrived", "wheelsoff"
+    "departed", "arrived", "wheelsoff"
   ]
 }
