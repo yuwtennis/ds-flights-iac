@@ -23,6 +23,8 @@ resource "google_compute_subnetwork" "private_subnet" {
 
 // Nat for pulling container from public repos
 resource "google_compute_router" "router" {
+  count = local.nat_enabled ? 1 : 0
+
   name    = "cloud-router"
   region  = local.region
   network = google_compute_network.vpc.id
@@ -33,9 +35,11 @@ resource "google_compute_router" "router" {
 }
 
 resource "google_compute_router_nat" "public_nat" {
+  count = local.nat_enabled ? 1 : 0
+
   name                               = "public-nat"
-  router                             = google_compute_router.router.name
-  region                             = google_compute_router.router.region
+  router                             = google_compute_router.router[0].name
+  region                             = google_compute_router.router[0].region
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 
