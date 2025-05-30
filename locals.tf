@@ -19,4 +19,7 @@ locals {
   event_topics = [
     "departed", "arrived", "wheelsoff"
   ]
+
+  // Enable if you need NAT
+  nat_enabled = true
 }
