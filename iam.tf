@@ -8,6 +8,11 @@ resource "google_service_account" "svc_dataflow_flight_job" {
   display_name = "SA for dataflow job for flight"
 }
 
+resource "google_service_account" "svc_vertex_ai_wkbench" {
+  account_id   = "svc-vertex-ai-wkbench"
+  display_name = "SA for vertex ai workbench"
+}
+
 // policies
 data "google_iam_policy" "storage_admin" {
   binding {
@@ -19,10 +24,14 @@ data "google_iam_policy" "storage_admin" {
   }
 }
 
-resource "google_project_iam_member" "bind_bq_job_user" {
-  member  = "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
+resource "google_project_iam_binding" "bind_bq_job_user" {
   project = data.google_project.project.project_id
   role    = "roles/bigquery.jobUser"
+  members = [
+    "serviceAccount:${google_service_account.svc_monthly_ingest.email}",
+    "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}",
+    "serviceAccount:${google_service_account.svc_vertex_ai_wkbench.email}"
+  ]
 }
 
 resource "google_project_iam_member" "bind_job_invoker" {
@@ -36,13 +45,6 @@ resource "google_project_iam_member" "bind_dataflow_job_runner" {
   member  = "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
   project = data.google_project.project.project_id
   role    = "roles/dataflow.worker"
-}
-
-resource "google_project_iam_member" "bind_bq_user" {
-
-  member  = "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
-  project = data.google_project.project.project_id
-  role    = "roles/bigquery.user"
 }
 
 resource "google_project_iam_member" "bind_pubsub_editor" {

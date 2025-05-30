@@ -15,7 +15,11 @@ terraform {
       version = "~>3.0"
     }
   }
-  required_version = "~> 1.11.0"
+  required_version = "~> 1.12.0"
+
+  backend "gcs" {
+    bucket = "dsongcp-452504-tf-state"
+  }
 }
 
 provider "google" {
