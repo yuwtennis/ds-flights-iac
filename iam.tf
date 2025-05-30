@@ -34,24 +34,30 @@ resource "google_project_iam_binding" "bind_bq_job_user" {
   ]
 }
 
-resource "google_project_iam_member" "bind_job_invoker" {
-  member  = "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
+resource "google_project_iam_binding" "bind_job_invoker" {
   project = data.google_project.project.project_id
   role    = "roles/run.invoker"
+  members  = [
+    "serviceAccount:${google_service_account.svc_monthly_ingest.email}"
+  ]
 }
 
-resource "google_project_iam_member" "bind_dataflow_job_runner" {
+resource "google_project_iam_binding" "bind_dataflow_job_runner" {
 
-  member  = "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
   project = data.google_project.project.project_id
   role    = "roles/dataflow.worker"
+  members  = [
+    "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
+  ]
 }
 
-resource "google_project_iam_member" "bind_pubsub_editor" {
+resource "google_project_iam_binding" "bind_pubsub_editor" {
 
-  member  = "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
   project = data.google_project.project.project_id
   role    = "roles/pubsub.editor"
+  members  = [
+    "serviceAccount:${google_service_account.svc_dataflow_flight_job.email}"
+  ]
 }
 
 //resource "google_iap_tunnel_instance_iam_member" "user_tunneling" {

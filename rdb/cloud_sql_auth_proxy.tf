@@ -26,8 +26,7 @@ resource "google_compute_instance" "cloud_sql_auth_proxy" {
   tags = [
     tolist(google_compute_firewall.ingress_postgresql_rule.target_tags)[0],
     tolist(google_compute_firewall.egress_tcp_any_rule.target_tags)[0],
-    tolist(google_compute_firewall.ingress_deny_all_rule.target_tags)[0],
-    tolist(google_compute_firewall.ingress_iap_ssh_forwarding_rule.target_tags)[0]
+    tolist(google_compute_firewall.ingress_deny_all_rule.target_tags)[0]
   ]
 
   boot_disk {
