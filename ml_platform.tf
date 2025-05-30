@@ -1,14 +1,14 @@
 resource "google_workbench_instance" "flights" {
-  location = local.region
+  location = "asia-northeast1-a"
   name     = "flights"
 
   gce_setup {
-    machine_type = "n1-standard-4"
+    machine_type = "n2-standard-2"
 
     disable_public_ip = true
 
     boot_disk {
-      disk_size_gb = 50
+      disk_size_gb = 150
       disk_type = "PD_STANDARD"
     }
 
@@ -27,7 +27,5 @@ resource "google_workbench_instance" "flights" {
     }
   }
 
-
   disable_proxy_access = false
-  desired_state = "STOPPED"
 }
