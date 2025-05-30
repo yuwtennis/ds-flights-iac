@@ -14,20 +14,6 @@ resource "google_compute_firewall" "ingress_postgresql_rule" {
   target_tags   = ["ingress-postgresql"]
   source_ranges = ["0.0.0.0/0"]
 }
-resource "google_compute_firewall" "ingress_iap_ssh_forwarding_rule" {
-  name        = "ingress-iap-ssh-forwarding-rule"
-  network     = var.network.id
-  description = ""
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22"]
-  }
-
-  direction     = "INGRESS"
-  target_tags   = ["ingress-iap"]
-  source_ranges = ["35.235.240.0/20"]
-}
 
 resource "google_compute_firewall" "ingress_deny_all_rule" {
   name        = "ingress-deny-all-rule"
