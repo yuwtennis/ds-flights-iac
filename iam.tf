@@ -34,6 +34,14 @@ resource "google_project_iam_binding" "bind_bq_job_user" {
   ]
 }
 
+resource "google_project_iam_binding" "bind_bq_readsession_user" {
+  project = data.google_project.project.project_id
+  role    = "roles/bigquery.readSessionUser"
+  members = [
+    "serviceAccount:${google_service_account.svc_vertex_ai_wkbench.email}"
+  ]
+}
+
 resource "google_project_iam_binding" "bind_job_invoker" {
   project = data.google_project.project.project_id
   role    = "roles/run.invoker"
