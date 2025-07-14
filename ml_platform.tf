@@ -1,4 +1,6 @@
 resource "google_workbench_instance" "flights" {
+  count = local.workbench_enabled ? 1 : 0
+
   location = "asia-northeast1-a"
   name     = "flights"
 
