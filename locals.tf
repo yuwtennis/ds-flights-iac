@@ -22,4 +22,6 @@ locals {
 
   // Enable if you need NAT
   nat_enabled = true
+
+  workbench_enabled = false
 }
